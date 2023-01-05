@@ -15,7 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   final List<String> imagesList = [
     "assets/hereditary.jpeg",
     "assets/joker.jpg",
@@ -24,43 +23,79 @@ class _HomeState extends State<Home> {
   ];
 
   int tabSelected = 1;
+  int selectedIndex = 0;
+
+  void onItemTapped(int index){
+    setState((() {
+        selectedIndex = index;
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            backgroundColor: Colors.black38,
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Header(),
-                title(),
-                Tabs(),
-                MoviesCarousel(),
-              ],
-            )));
+          backgroundColor: Colors.black38,
+          bottomNavigationBar: BottomNavigationBar( 
+            selectedItemColor: Colors.yellow,
+            // ignore: prefer_const_literals_to_create_immutables
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label:"home",
+                backgroundColor: Colors.black.withOpacity(0.3),
+                ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label:"Buscar",
+                 backgroundColor: Colors.black.withOpacity(0.3),
+                ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+              label:"Favoritos",
+               backgroundColor: Colors.black.withOpacity(0.3),
+              
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                label:"Perfil",
+                 backgroundColor: Colors.black.withOpacity(0.3),
+                ),
+            ],
+            currentIndex: selectedIndex,
+            onTap: onItemTapped,
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              Header(),
+              title(),
+              Tabs(),
+              MoviesCarousel(),
+            ],
+          ),
+         
+        ));
   }
 
   CarouselSlider MoviesCarousel() {
     return CarouselSlider(
-                  items: imagesList
-                      .map((item) => Padding(
-                        padding: EdgeInsets.only(top:10),
-                        child: Center(
-                              child: Image.asset(
-                                item,
-                                width: 400,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                      ))
-                      .toList(),
-                  options: CarouselOptions(
-                      autoPlay: false,
-                      aspectRatio: 1.0,
-                      enlargeCenterPage: true));
+        items: imagesList
+            .map((item) => Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Center(
+                    child: Image.asset(
+                      item,
+                      width: 400,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ))
+            .toList(),
+        options: CarouselOptions(
+            autoPlay: false, aspectRatio: 1.0, enlargeCenterPage: true));
   }
 
   Padding Tabs() {
